@@ -25,15 +25,16 @@
         .metal-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); border-color: var(--gold); }
         .metal-card:hover::after { transform: scaleX(1); }
         .metal-card h3 { font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: 5px; transition: 0.4s; }
-        .btn-premium { background: var(--black); color: white; padding: 22px; width: 100%; border: none; font-family: 'Cinzel', serif; letter-spacing: 3px; cursor: pointer; position: relative; overflow: hidden; transition: 0.4s all; text-transform: uppercase; font-weight: 700; display: flex; justify-content: center; align-items: center; outline: 1px solid rgba(189, 147, 84, 0.3); outline-offset: -5px; }
+        .btn-premium { background: var(--black); color: white; padding: 22px; width: 100%; border: none; font-family: 'Cinzel', serif; letter-spacing: 3px; cursor: pointer; position: relative; overflow: hidden; transition: 0.4s all; text-transform: uppercase; font-weight: 700; display: flex; justify-content: center; align-items: center; outline: 1px solid rgba(189, 147, 84, 0.3); outline-offset: -5px; margin-top: 20px; }
         .btn-premium:hover { background: #1a1a1a; letter-spacing: 5px; box-shadow: 0 15px 30px rgba(189, 147, 84, 0.2); outline: 1px solid var(--gold); }
+        .btn-premium:disabled { background: #666; cursor: not-allowed; }
         .section-white { background: white; padding: 60px; border-radius: 2px; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
         .cat-item { padding: 25px; border-bottom: 1px solid #eee; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; text-align: center; transition: 0.4s; }
         .cat-item:hover { color: var(--gold); letter-spacing: 6px; background: #fafafa; }
         .form-group { margin-bottom: 30px; }
         .form-group label { display: block; font-size: 0.7rem; letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
-        .form-group input { width: 100%; border: none; border-bottom: 1px solid #ccc; padding: 12px 0; outline: none; transition: 0.3s; background: transparent; }
-        .form-group input:focus { border-bottom-color: var(--gold); }
+        .form-group input, .form-group textarea { width: 100%; border: none; border-bottom: 1px solid #ccc; padding: 12px 0; outline: none; transition: 0.3s; background: transparent; font-family: inherit; }
+        .form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--gold); }
         .artisan-info { background: var(--black); color: white; padding: 80px 5%; text-align: center; }
         .artisan-info h3 { font-family: 'Cinzel', serif; letter-spacing: 5px; margin-bottom: 30px; color: var(--gold); }
         .hidden { display: none; }
@@ -93,26 +94,22 @@
             <div class="section-white" style="max-width: 650px; margin: 0 auto;">
                 <h2 id="display-cat" style="font-family: 'Cinzel', serif; margin-bottom: 40px; color: var(--gold); text-align: center; letter-spacing: 2px;"></h2>
                 
-                <form id="inquiryForm" 
-                      name="jewelry-inquiry" 
-                      method="POST" 
-                      data-netlify="true" 
-                      data-netlify-honeypot="bot-field"
-                      enctype="multipart/form-data">
+                <form id="inquiryForm">
+                    <input type="hidden" name="access_key" value="0212e7b2-1dab-4504-ad6b-9c0095813573">
+                    <input type="hidden" name="subject" value="New WP Jewelry Inquiry">
+                    <input type="hidden" name="from_name" value="WP Jewelry Website">
                     
-                    <p class="hidden" style="display:none;">
-                        <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
-                    </p>
+                    <input type="hidden" name="Metal_Type" id="hidden-metal">
+                    <input type="hidden" name="Category" id="hidden-category">
 
-                    <input type="hidden" name="form-name" value="jewelry-inquiry">
-                    <input type="hidden" name="selected-metal" id="hidden-metal">
-                    <input type="hidden" name="selected-category" id="hidden-category">
+                    <div class="form-group"><label>FULL NAME</label><input type="text" name="name" required></div>
+                    <div class="form-group"><label>CONTACT NUMBER</label><input type="tel" name="phone" required></div>
+                    <div class="form-group"><label>EMAIL ADDRESS</label><input type="email" name="email" required></div>
+                    <div class="form-group"><label>DESIGN DETAILS / NOTES</label>
+                        <textarea name="message" rows="4" placeholder="Describe your custom design or paste a link to a reference image..." required></textarea>
+                    </div>
 
-                    <div class="form-group"><label>FULL NAME</label><input type="text" name="name" id="custName" required></div>
-                    <div class="form-group"><label>CONTACT NUMBER</label><input type="tel" name="phone" id="custPhone" required></div>
-                    <div class="form-group"><label>EMAIL ADDRESS</label><input type="email" name="email" id="custEmail" required></div>
-                    <div class="form-group"><label>UPLOAD DESIGN REFERENCE</label><input type="file" name="design-file" id="custFile" accept="image/*" required></div>
-                    <button type="submit" class="btn-premium">REQUEST MASTERPIECE CONSULTATION</button>
+                    <button type="submit" class="btn-premium" id="submitBtn">REQUEST MASTERPIECE CONSULTATION</button>
                 </form>
             </div>
         </div>
@@ -140,13 +137,17 @@
         const app = {
             currentMetal: '',
             categories: ["Imperial Earrings", "Signature Rings", "Heirloom Bangles", "Solid Chains", "Artisan Bracelets", "Grand Necklaces", "Mangalsutra or Tali/Thaali"],
+            
             showStep(stepId) {
-                ['step-1', 'step-2', 'step-3', 'step-thanks'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                ['step-1', 'step-2', 'step-3', 'step-thanks'].forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
                 const mission = document.getElementById('home-mission');
                 if (stepId === 'step-1') mission.classList.remove('hidden'); else mission.classList.add('hidden');
                 document.getElementById(stepId).classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
+
             toStep2(metal) {
                 this.currentMetal = metal;
                 document.getElementById('display-metal').innerText = metal.toUpperCase() + " COLLECTIONS";
@@ -162,6 +163,7 @@
                 });
                 this.showStep('step-2');
             },
+
             toStep3(cat) {
                 document.getElementById('display-cat').innerText = `${this.currentMetal} ${cat}`;
                 document.getElementById('hidden-category').value = cat;
@@ -169,26 +171,43 @@
             }
         };
 
-        // INTEGRATING AJAX SUBMISSION TO SHOW CUSTOM THANK YOU SCREEN
-        document.getElementById('inquiryForm').onsubmit = function(e) {
+        // FORM SUBMISSION LOGIC
+        const form = document.getElementById('inquiryForm');
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "SENDING...";
 
-            fetch("/", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData).toString(),
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
             })
-            .then(() => {
-                // Showing the custom thank you screen instead of Netlify's default
-                app.showStep('step-thanks');
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    app.showStep('step-thanks');
+                } else {
+                    alert(json.message);
+                    btn.disabled = false;
+                    btn.innerText = "REQUEST MASTERPIECE CONSULTATION";
+                }
             })
-            .catch((error) => {
-                // Fail-safe for local testing
-                app.showStep('step-thanks');
+            .catch(error => {
+                console.log(error);
+                alert("Something went wrong!");
+                btn.disabled = false;
+                btn.innerText = "REQUEST MASTERPIECE CONSULTATION";
             });
-        };
+        });
     </script>
 </body>
 </html>
