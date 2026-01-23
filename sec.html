@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WP | GOLD SMITH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #bd9354; --gold-metallic: linear-gradient(45deg, #8a6d3b, #dbb67d, #8a6d3b); --black: #0d0d0d; --white: #ffffff; --bg: #fdfaf7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg); color: var(--black); line-height: 1.6; scroll-behavior: smooth; }
+        nav { background: var(--white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .logo-box { cursor: pointer; }
+        .brand-name { font-family: 'Cinzel', serif; font-size: 1.8rem; letter-spacing: 6px; color: var(--gold); font-weight: 700; text-transform: uppercase; }
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; color: white; padding: 20px; }
+        .hero h2 { font-family: 'Cinzel', serif; font-size: 3.5rem; letter-spacing: 12px; margin-bottom: 10px; }
+        .mission-container { max-width: 1100px; margin: -80px auto 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 20px; position: relative; z-index: 20; }
+        .mission-card { background: rgba(255, 255, 255, 0.95); padding: 40px; backdrop-filter: blur(10px); border: 1px solid rgba(189, 147, 84, 0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .mission-card h4 { font-family: 'Cinzel', serif; color: var(--gold); letter-spacing: 3px; margin-bottom: 15px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 10px; display: inline-block; }
+        .mission-card p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; line-height: 1.8; color: #444; }
+        .container { max-width: 1100px; margin: 40px auto 60px; position: relative; z-index: 10; padding: 0 20px; }
+        .selection-box { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .metal-card { background: var(--white); height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .metal-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--gold-metallic); transform: scaleX(0); transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .metal-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); border-color: var(--gold); }
+        .metal-card:hover::after { transform: scaleX(1); }
+        .metal-card h3 { font-family: 'Cinzel', serif; font-size: 2.2rem; letter-spacing: 5px; transition: 0.4s; }
+        .btn-premium { background: var(--black); color: white; padding: 22px; width: 100%; border: none; font-family: 'Cinzel', serif; letter-spacing: 3px; cursor: pointer; position: relative; overflow: hidden; transition: 0.4s all; text-transform: uppercase; font-weight: 700; display: flex; justify-content: center; align-items: center; outline: 1px solid rgba(189, 147, 84, 0.3); outline-offset: -5px; }
+        .btn-premium:hover { background: #1a1a1a; letter-spacing: 5px; box-shadow: 0 15px 30px rgba(189, 147, 84, 0.2); outline: 1px solid var(--gold); }
+        .section-white { background: white; padding: 60px; border-radius: 2px; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+        .cat-item { padding: 25px; border-bottom: 1px solid #eee; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; text-align: center; transition: 0.4s; }
+        .cat-item:hover { color: var(--gold); letter-spacing: 6px; background: #fafafa; }
+        .form-group { margin-bottom: 30px; }
+        .form-group label { display: block; font-size: 0.7rem; letter-spacing: 2px; font-weight: 700; margin-bottom: 10px; }
+        .form-group input { width: 100%; border: none; border-bottom: 1px solid #ccc; padding: 12px 0; outline: none; transition: 0.3s; background: transparent; }
+        .form-group input:focus { border-bottom-color: var(--gold); }
+        .artisan-info { background: var(--black); color: white; padding: 80px 5%; text-align: center; }
+        .artisan-info h3 { font-family: 'Cinzel', serif; letter-spacing: 5px; margin-bottom: 30px; color: var(--gold); }
+        .hidden { display: none; }
+        .back-link { cursor: pointer; font-size: 0.75rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 30px; display: inline-block; text-transform: uppercase; font-weight: 700; }
+        @media (max-width: 768px) { .mission-container { grid-template-columns: 1fr; margin-top: -40px; } .selection-box { grid-template-columns: 1fr; } .hero h2 { font-size: 2.2rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo-box" onclick="location.reload()">
+            <span class="brand-name">WP</span>
+        </div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: #aaa;">EST. 1987</div>
+    </nav>
+
+    <section class="hero">
+        <h2>Purity in Art</h2>
+        <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4rem;">Goldsmithing Excellence for the Discriminating Collector</p>
+    </section>
+
+    <section class="mission-container" id="home-mission">
+        <div class="mission-card">
+            <h4>Our Scope</h4>
+            <p>Our company specializes in the ancient art of goldsmithing, blending traditional filigree with modern precision alloying. Every step is performed in-house to ensure purity benchmarks are never compromised.</p>
+        </div>
+        <div class="mission-card">
+            <h4>Our Aim</h4>
+            <p>Our aim is to transform precious metals into timeless heirlooms. We provide a bespoke artisan experience where the client's vision meets the goldsmith's hammer.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div id="step-1">
+            <h3 style="text-align: center; margin-bottom: 40px; font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 4px; color: #888;">I. SELECT YOUR MEDIUM</h3>
+            <div class="selection-box">
+                <div class="metal-card" onclick="app.toStep2('Gold')">
+                    <h3>GOLD</h3>
+                    <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-top: 15px;">22K & 24K PURITY</p>
+                </div>
+                <div class="metal-card" onclick="app.toStep2('Silver')">
+                    <h3>SILVER</h3>
+                    <p style="font-size: 0.7rem; letter-spacing: 3px; color: #999; margin-top: 15px;">925 STERLING</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-2" class="hidden">
+            <span class="back-link" onclick="app.showStep('step-1')">← Back to Home</span>
+            <div class="section-white">
+                <h2 id="display-metal" style="font-family: 'Cinzel', serif; text-align: center; margin-bottom: 40px; letter-spacing: 4px;"></h2>
+                <div id="cat-options"></div>
+            </div>
+        </div>
+
+        <div id="step-3" class="hidden">
+            <span class="back-link" onclick="app.showStep('step-2')">← Back to Categories</span>
+            <div class="section-white" style="max-width: 650px; margin: 0 auto;">
+                <h2 id="display-cat" style="font-family: 'Cinzel', serif; margin-bottom: 40px; color: var(--gold); text-align: center; letter-spacing: 2px;"></h2>
+                
+                <form id="inquiryForm" 
+                      name="jewelry-inquiry" 
+                      method="POST" 
+                      data-netlify="true" 
+                      data-netlify-honeypot="bot-field"
+                      enctype="multipart/form-data">
+                    
+                    <p class="hidden" style="display:none;">
+                        <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+
+                    <input type="hidden" name="form-name" value="jewelry-inquiry">
+                    <input type="hidden" name="selected-metal" id="hidden-metal">
+                    <input type="hidden" name="selected-category" id="hidden-category">
+
+                    <div class="form-group"><label>FULL NAME</label><input type="text" name="name" id="custName" required></div>
+                    <div class="form-group"><label>CONTACT NUMBER</label><input type="tel" name="phone" id="custPhone" required></div>
+                    <div class="form-group"><label>EMAIL ADDRESS</label><input type="email" name="email" id="custEmail" required></div>
+                    <div class="form-group"><label>UPLOAD DESIGN REFERENCE</label><input type="file" name="design-file" id="custFile" accept="image/*" required></div>
+                    <button type="submit" class="btn-premium">REQUEST MASTERPIECE CONSULTATION</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="step-thanks" class="hidden">
+            <div class="section-white" style="text-align: center; padding: 100px 40px;">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem;">Inquiry Received</h2>
+                <p>The master artisan will personally review your request shortly.</p>
+                <button onclick="location.reload()" class="btn-premium" style="width: auto; padding: 15px 40px; margin: 50px auto 0;">RETURN HOME</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="artisan-info">
+        <h3>The Artisan Studio</h3>
+        <p>Lotus Street, Raja Nagar, Appampattu, Tamil Nadu - 604205.</p>
+        <p>Voice: +91 98422 29987 | Email: goldshankar1967@gmail.com</p>
+    </section>
+
+    <footer style="background: #000; color: #444; padding: 40px; text-align: center; font-size: 0.6rem; letter-spacing: 4px;">
+        &copy; 2026 WP JEWELRY. CRAFTED WITH TRUST.
+    </footer>
+
+    <script>
+        const app = {
+            currentMetal: '',
+            categories: ["Imperial Earrings", "Signature Rings", "Heirloom Bangles", "Solid Chains", "Artisan Bracelets", "Grand Necklaces", "Mangalsutra or Tali/Thaali"],
+            showStep(stepId) {
+                ['step-1', 'step-2', 'step-3', 'step-thanks'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                const mission = document.getElementById('home-mission');
+                if (stepId === 'step-1') mission.classList.remove('hidden'); else mission.classList.add('hidden');
+                document.getElementById(stepId).classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+            toStep2(metal) {
+                this.currentMetal = metal;
+                document.getElementById('display-metal').innerText = metal.toUpperCase() + " COLLECTIONS";
+                document.getElementById('hidden-metal').value = metal;
+                const container = document.getElementById('cat-options');
+                container.innerHTML = '';
+                this.categories.forEach(c => {
+                    const div = document.createElement('div');
+                    div.className = 'cat-item';
+                    div.innerText = c;
+                    div.onclick = () => this.toStep3(c);
+                    container.appendChild(div);
+                });
+                this.showStep('step-2');
+            },
+            toStep3(cat) {
+                document.getElementById('display-cat').innerText = `${this.currentMetal} ${cat}`;
+                document.getElementById('hidden-category').value = cat;
+                this.showStep('step-3');
+            }
+        };
+
+        // INTEGRATING AJAX SUBMISSION TO SHOW CUSTOM THANK YOU SCREEN
+        document.getElementById('inquiryForm').onsubmit = function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(formData).toString(),
+            })
+            .then(() => {
+                // Showing the custom thank you screen instead of Netlify's default
+                app.showStep('step-thanks');
+            })
+            .catch((error) => {
+                // Fail-safe for local testing
+                app.showStep('step-thanks');
+            });
+        };
+    </script>
+</body>
+</html>
