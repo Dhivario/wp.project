@@ -40,19 +40,36 @@
         .hidden { display: none; }
         .back-link { cursor: pointer; font-size: 0.75rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 30px; display: inline-block; text-transform: uppercase; font-weight: 700; }
         
-        /* File Input Styling */
-        input[type="file"]::file-selector-button {
-            background: var(--gold);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.7rem;
-            cursor: pointer;
-            margin-right: 15px;
+        /* New Email Redirect Box Styling */
+        .email-redirect-box {
+            text-align: center; 
+            background: rgba(189, 147, 84, 0.05); 
+            padding: 25px; 
+            border: 1px dashed rgba(189, 147, 84, 0.4); 
+            margin-bottom: 35px;
             transition: 0.3s;
         }
-        input[type="file"]::file-selector-button:hover { background: #8a6d3b; }
+        .email-redirect-box:hover {
+            background: rgba(189, 147, 84, 0.08);
+            border-style: solid;
+        }
+        .email-link {
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            color: var(--gold); 
+            font-family: 'Cinzel', serif; 
+            font-weight: 700; 
+            font-size: 0.85rem; 
+            letter-spacing: 1px; 
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .email-link:hover {
+            color: var(--black);
+            transform: translateY(-2px);
+        }
 
         .insta-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--white); text-decoration: none; font-family: 'Cinzel', serif; letter-spacing: 3px; font-size: 0.9rem; transition: 0.4s; padding: 12px 25px; border: 1px solid rgba(189, 147, 84, 0.3); border-radius: 50px; }
         .insta-link:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(189, 147, 84, 0.1); }
@@ -125,10 +142,16 @@
                     <div class="form-group"><label>CONTACT NUMBER</label><input type="tel" name="phone" required></div>
                     <div class="form-group"><label>EMAIL ADDRESS</label><input type="email" name="email" required></div>
                     
-                    <div class="form-group">
-                        <label>REFERENCE IMAGE (OPTIONAL)</label>
-                        <input type="file" name="attachment" accept="image/*">
-                        <p style="font-size: 0.6rem; color: #999; margin-top: 5px;">Upload a sketch or inspiration photo (Max 5MB)</p>
+                    <div class="email-redirect-box">
+                        <p style="font-size: 0.75rem; letter-spacing: 1px; color: #444; font-weight: 600;">
+                            NOTE: AFTER SUBMITTING THE REQUEST, PLEASE EMAIL THE REFERENCE IMAGE.
+                        </p>
+                        <a href="mailto:wpgoldsmith1987@gmail.com" class="email-link">
+                            <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            WPGOLDSMITH1987@GMAIL.COM
+                        </a>
                     </div>
 
                     <div class="form-group"><label>DESIGN DETAILS / NOTES</label>
@@ -202,20 +225,18 @@
             }
         };
 
-        // UPDATED FORM SUBMISSION LOGIC FOR FILE SUPPORT
         const form = document.getElementById('inquiryForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerText = "UPLOADING & SENDING...";
+            btn.innerText = "SENDING...";
 
-            // Use FormData to include the file
             const formData = new FormData(form);
 
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                body: formData // No JSON.stringify, send object directly
+                body: formData
             })
             .then(async (response) => {
                 let res = await response.json();
@@ -229,7 +250,7 @@
             })
             .catch(error => {
                 console.log(error);
-                alert("Something went wrong with the upload!");
+                alert("Something went wrong!");
                 btn.disabled = false;
                 btn.innerText = "REQUEST MASTERPIECE CONSULTATION";
             });
