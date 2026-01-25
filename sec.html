@@ -39,6 +39,25 @@
         .artisan-info h3 { font-family: 'Cinzel', serif; letter-spacing: 5px; margin-bottom: 30px; color: var(--gold); }
         .hidden { display: none; }
         .back-link { cursor: pointer; font-size: 0.75rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 30px; display: inline-block; text-transform: uppercase; font-weight: 700; }
+        
+        /* File Input Styling */
+        input[type="file"]::file-selector-button {
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: 0.3s;
+        }
+        input[type="file"]::file-selector-button:hover { background: #8a6d3b; }
+
+        .insta-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--white); text-decoration: none; font-family: 'Cinzel', serif; letter-spacing: 3px; font-size: 0.9rem; transition: 0.4s; padding: 12px 25px; border: 1px solid rgba(189, 147, 84, 0.3); border-radius: 50px; }
+        .insta-link:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(189, 147, 84, 0.1); }
+        .insta-icon { width: 20px; height: 20px; fill: currentColor; }
+
         @media (max-width: 768px) { .mission-container { grid-template-columns: 1fr; margin-top: -40px; } .selection-box { grid-template-columns: 1fr; } .hero h2 { font-size: 2.2rem; } }
     </style>
 </head>
@@ -94,7 +113,7 @@
             <div class="section-white" style="max-width: 650px; margin: 0 auto;">
                 <h2 id="display-cat" style="font-family: 'Cinzel', serif; margin-bottom: 40px; color: var(--gold); text-align: center; letter-spacing: 2px;"></h2>
                 
-                <form id="inquiryForm">
+                <form id="inquiryForm" enctype="multipart/form-data">
                     <input type="hidden" name="access_key" value="0212e7b2-1dab-4504-ad6b-9c0095813573">
                     <input type="hidden" name="subject" value="New WP Jewelry Inquiry">
                     <input type="hidden" name="from_name" value="WP Jewelry Website">
@@ -105,8 +124,15 @@
                     <div class="form-group"><label>FULL NAME</label><input type="text" name="name" required></div>
                     <div class="form-group"><label>CONTACT NUMBER</label><input type="tel" name="phone" required></div>
                     <div class="form-group"><label>EMAIL ADDRESS</label><input type="email" name="email" required></div>
+                    
+                    <div class="form-group">
+                        <label>REFERENCE IMAGE (OPTIONAL)</label>
+                        <input type="file" name="attachment" accept="image/*">
+                        <p style="font-size: 0.6rem; color: #999; margin-top: 5px;">Upload a sketch or inspiration photo (Max 5MB)</p>
+                    </div>
+
                     <div class="form-group"><label>DESIGN DETAILS / NOTES</label>
-                        <textarea name="message" rows="4" placeholder="Describe your custom design or paste a link to a reference image..." required></textarea>
+                        <textarea name="message" rows="4" placeholder="Describe your custom design requirements..." required></textarea>
                     </div>
 
                     <button type="submit" class="btn-premium" id="submitBtn">REQUEST MASTERPIECE CONSULTATION</button>
@@ -117,16 +143,21 @@
         <div id="step-thanks" class="hidden">
             <div class="section-white" style="text-align: center; padding: 100px 40px;">
                 <h2 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.2rem;">Inquiry Received</h2>
-                <p>The master artisan will personally review your request shortly.</p>
+                <p>The master artisan will personally review your request and image shortly.</p>
                 <button onclick="location.reload()" class="btn-premium" style="width: auto; padding: 15px 40px; margin: 50px auto 0;">RETURN HOME</button>
             </div>
         </div>
     </div>
 
     <section class="artisan-info">
-        <h3>The Artisan Studio</h3>
+        <h3>The Artisan' Details </h3>
         <p>Lotus Street, Raja Nagar, Appampattu, Tamil Nadu - 604205.</p>
-        <p>Voice: +91 98422 29987 | Email: goldshankar1967@gmail.com</p>
+        <p>Voice: +91 98422 29987 | Email: wpgoldsmith1987@gmail.com</p>
+        
+        <a href="https://instagram.com/wp.smithcraft" target="_blank" class="insta-link">
+            <svg class="insta-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @wp.smithcraft
+        </a>
     </section>
 
     <footer style="background: #000; color: #444; padding: 40px; text-align: center; font-size: 0.6rem; letter-spacing: 4px;">
@@ -171,39 +202,34 @@
             }
         };
 
-        // FORM SUBMISSION LOGIC
+        // UPDATED FORM SUBMISSION LOGIC FOR FILE SUPPORT
         const form = document.getElementById('inquiryForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerText = "SENDING...";
+            btn.innerText = "UPLOADING & SENDING...";
 
+            // Use FormData to include the file
             const formData = new FormData(form);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
 
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: json
+                body: formData // No JSON.stringify, send object directly
             })
             .then(async (response) => {
-                let json = await response.json();
+                let res = await response.json();
                 if (response.status == 200) {
                     app.showStep('step-thanks');
                 } else {
-                    alert(json.message);
+                    alert("Error: " + res.message);
                     btn.disabled = false;
                     btn.innerText = "REQUEST MASTERPIECE CONSULTATION";
                 }
             })
             .catch(error => {
                 console.log(error);
-                alert("Something went wrong!");
+                alert("Something went wrong with the upload!");
                 btn.disabled = false;
                 btn.innerText = "REQUEST MASTERPIECE CONSULTATION";
             });
